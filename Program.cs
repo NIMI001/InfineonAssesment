@@ -1,10 +1,24 @@
+using InfineonAssesment.Application.Service.Abstraction;
+using InfineonAssesment.Application.Service.Implementation;
 using InfineonAssesment.Infrastructure.Persistence;
+using InfineonAssesment.Infrastructure.Repository.Abstraction;
+using InfineonAssesment.Infrastructure.Repository.Implementation;
+using InfineonAssesment.Shared.Dto.RequestDto;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Mukoya.Application.HelperServices.Implementation;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<InfineonContext>(option=>option.UseSqlServer(builder.Configuration.GetConnectionString("InfineonLocalDB")));
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailConfiguration"));
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<TokenService>();
 
 builder.Services.AddAuthorization();
 
