@@ -1,3 +1,4 @@
+using InfineonAssesment.Application.Extension;
 using InfineonAssesment.Application.Service.Abstraction;
 using InfineonAssesment.Application.Service.Implementation;
 using InfineonAssesment.Domain;
@@ -16,7 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<InfineonContext>(option=>option.UseSqlServer(builder.Configuration.GetConnectionString("InfineonLocalDB")));
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailConfiguration"));
 builder.Services.AddScoped<IEmailService, EmailService>();
-builder.Services.AddScoped<UserManager<User>>();
+builder.Services.ConfigureAppIdentity();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
